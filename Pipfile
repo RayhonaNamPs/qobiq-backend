@@ -8,6 +8,9 @@ django = "*"
 djangorestframework = "*"
 knox = "*"
 django-rest-knox = "*"
+channels = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+channels-redis = "*"
 
 [dev-packages]
 

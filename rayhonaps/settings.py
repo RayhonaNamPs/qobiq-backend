@@ -43,7 +43,17 @@ INSTALLED_APPS = [
 
     # 3rd part apps
     'rest_framework',
+    'channels',
 ]
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('0.0.0.0', 6379)],
+        }
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
