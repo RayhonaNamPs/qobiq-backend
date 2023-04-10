@@ -1,34 +1,22 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, viewsets, status
+from rest_framework import generics, viewsets, status, permissions
 from rest_framework.response import Response
-from .models import ChatRoom, Message
-from .serializers import ChatRoomSerializer, MessageSerializer
+from .models import Message
+from .serializers import MessageSerializer, CreateMessageSerializer
 
 
-class ChatRoomListCreateView(generics.ListCreateAPIView):
-    queryset = ChatRoom.objects.all()
-    serializer_class = ChatRoomSerializer
-
-
-class JoinChatRoomView(generics.GenericAPIView):
-    queryset = ChatRoom.objects.all()
-    serializer_class = ChatRoomSerializer
-
-    def post(self, request, *args, **kwargs):
-        chat_room = self.get_object()
-        user = request.user
-        chat_room.users.add(user)
-        chat_room.save()
-        return Response(status=status.HTTP_200_OK)
-
-
-class MessageViewSet(viewsets.ModelViewSet):
+class MessagesList(generics.ListAPIView):
     serializer_class = MessageSerializer
 
     def get_queryset(self):
-        chat_room = get_object_or_404(ChatRoom, id=self.kwargs['chat_room_id'])
-        return chat_room.messages.all()
+        chat_room = self.request.query_params.get('chat_room')
+        queryset = Message.objects.filter(chat_room=chat_room)
+        return queryset
+
+
+class CreateMessage(generics.CreateAPIView):
+    serializer_class = CreateMessageSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        chat_room = get_object_or_404(ChatRoom, id=self.kwargs['chat_room_id'])
-        serializer.save(sender=self.request.user, chat_room=chat_room)
+        serializer.save(sender=self.request.user)

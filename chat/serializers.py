@@ -1,16 +1,17 @@
 from rest_framework import serializers
-from .models import ChatRoom, Message
+from .models import Message
 from users.serializers import AccountsSerializer
 
-class ChatRoomSerializer(serializers.ModelSerializer):
+
+class CreateMessageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ChatRoom
-        fields = ('id', 'name')
+        model = Message
+        fields = ('id', 'chat_room', 'content', 'timestamp')
+
 
 class MessageSerializer(serializers.ModelSerializer):
     sender = AccountsSerializer()
-    chat_room = ChatRoomSerializer()
 
     class Meta:
         model = Message
-        field = ('id', 'sender', 'chat_room', 'content', 'timestamp')
+        fields = '__all__'
