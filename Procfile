@@ -1,1 +1,1 @@
-web: gunicorn rayhonaps.wsgi --logfile -
+web: gunicorn rayhonaps.wsgi --log-file -
