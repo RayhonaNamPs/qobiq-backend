@@ -11,6 +11,13 @@ django-rest-knox = "*"
 channels = "*"
 uvicorn = {extras = ["standard"], version = "*"}
 channels-redis = "*"
+gunicorn = "*"
+whitenoise = "*"
+psycopg2 = "*"
+django-heroku = "*"
+pip = "*"
+install = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
