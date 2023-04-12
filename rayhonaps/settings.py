@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # our apps
     'users',
     'chat',
+    'articles',
 
     # 3rd part apps
     'rest_framework',
